@@ -20,6 +20,6 @@ defmodule Viviani.Mixfile do
   end
 
   defp deps do
-    [{:alchemy, "~> 0.1.9", hex: :discord_alchemy}]
+    [{:alchemy, git: "https://github.com/cronokirby/alchemy.git"}]
   end
 end

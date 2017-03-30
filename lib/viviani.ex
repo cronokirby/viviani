@@ -23,6 +23,7 @@ defmodule Viviani do
 
   # This loads and wires up all the commands and event modules we want to start with
   defp load_modules do
-
+   use Viviani.Basic
+   use Viviani.Statistics
   end
 end
