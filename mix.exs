@@ -15,11 +15,10 @@ defmodule Viviani.Mixfile do
   # Type "mix help compile.app" for more information
   def application do
     # Specify extra applications you'll use from Erlang/Elixir
-    [mod: {Viviani, []},
-     extra_applications: [:logger]]
+    [mod: {Viviani, []}]
   end
 
   defp deps do
-    [{:alchemy, git: "https://github.com/cronokirby/alchemy.git"}]
+    [{:alchemy, "~> 0.2.0", hex: :discord_alchemy}]
   end
 end
