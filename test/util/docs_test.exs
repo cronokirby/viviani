@@ -13,4 +13,13 @@ defmodule Viviani.Util.DocsTest do
     assert Docs.module_header(Alchemy.Cache) == @alchemy_cache
     assert Docs.module_header(FOFOFOFOFOFO) == nil
   end
+
+  @enum_each "Invokes the given `fun` for each item in the enumerable."
+
+  @cache_emoji "Retrieves a custom emoji by id in a guild."
+
+  test "Function headers should be accessible, or nil" do
+    assert Docs.fun_header(Alchemy.Cache, :emoji, 2) == @cache_emoji
+    assert Docs.fun_header(Enum, :each, 2) == @enum_each
+  end
 end
