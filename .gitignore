@@ -20,4 +20,4 @@ erl_crash.dump
 *.ez
 
 # Ignore configuration which needs to not be updated
-/config
+config/config.exs
