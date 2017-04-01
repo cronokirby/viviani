@@ -7,15 +7,17 @@ defmodule Viviani.Mixfile do
      elixir: "~> 1.4",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     aliases: aliases(),
      deps: deps()]
   end
 
-  # Configuration for the OTP application
-  #
-  # Type "mix help compile.app" for more information
+
   def application do
-    # Specify extra applications you'll use from Erlang/Elixir
     [mod: {Viviani, []}]
+  end
+
+  defp aliases do
+    [test: "test --no-start"]
   end
 
   defp deps do

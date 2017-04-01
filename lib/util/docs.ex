@@ -5,8 +5,12 @@ defmodule Viviani.Util.Docs do
   require IEx
   def module_header(module) do
     # Won't match in the case we don't find the module, returning nil.
-    with {_line, text} <- Code.get_docs(module, :moduledoc) do
+    try do
+      module = ("Elixir." <> module) |> String.to_existing_atom
+      {_line, text} = Code.get_docs(module, :moduledoc)
       hd String.split(text, "\n")
+    rescue
+      _e in ArgumentError -> nil
     end
   end
 
@@ -22,20 +26,26 @@ defmodule Viviani.Util.Docs do
     This is a succesful header.
   """
   def fun_header(module, fun, arity) do
-    with [_|_] = docs <- Code.get_docs(module, :docs) do
-      case Enum.filter(docs, &match?({{^fun, ^arity}, _, _, _, _}, &1)) do
+    try do
+      module = "Elixir." <> module
+      docs = Code.get_docs(String.to_existing_atom(module), :docs)
+      case Enum.filter(docs, fn {{f, a}, _, _, _, _} ->
+        {Atom.to_string(f), a} == {fun, arity}
+      end) do
         # Sort the results by jaro distance, take the 3 closest
         [] ->
           docs
           |> Stream.map(fn {info, _, _, _, _} -> info end)
           |> Enum.sort_by(fn {f, _} ->
-            String.jaro_distance(Atom.to_string(fun), Atom.to_string(f))
+            String.jaro_distance(fun, Atom.to_string(f))
           end, &>=/2)
           |> Enum.take(3)
           |> (& {:similar, &1}).()
         [{_, _, _, _spec, text}] ->
           {:ok, hd String.split(text, "\n")}
       end
+    rescue
+      _e in ArgumentError -> nil
     end
   end
 end
