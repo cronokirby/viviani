@@ -34,18 +34,21 @@ defmodule Viviani.Util.Docs do
       end) do
         # Sort the results by jaro distance, take the 3 closest
         [] ->
-          docs
-          |> Stream.map(fn {info, _, _, _, _} -> info end)
-          |> Enum.sort_by(fn {f, _} ->
-            String.jaro_distance(fun, Atom.to_string(f))
-          end, &>=/2)
-          |> Enum.take(3)
-          |> (& {:similar, &1}).()
+          {:similar, find_similar(docs, fun)}
         [{_, _, _, _spec, text}] ->
           {:ok, hd String.split(text, "\n")}
       end
     rescue
       _e in ArgumentError -> nil
     end
+  end
+
+  defp find_similar(docs, fun, amount \\ 3) do
+    docs
+    |> Stream.map(fn {info, _, _, _, _} -> info end)
+    |> Enum.sort_by(fn {f, _} ->
+      String.jaro_distance(fun, Atom.to_string(f))
+    end, &>=/2)
+    |> Enum.take(amount)
   end
 end
