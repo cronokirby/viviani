@@ -34,4 +34,8 @@ defmodule Viviani.Util.DocUtilTest do
     assert DocUtil.link("Enum", "all?", 2) == @enum_all
     assert DocUtil.link("Alchemy.Client", "start", 2) == @client_start
   end
+
+  test "Links should work for just a module" do
+    assert DocUtil.link("Enum") == "https://hexdocs.pm/elixir/1.4.2/Enum.html"
+  end
 end

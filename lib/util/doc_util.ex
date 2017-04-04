@@ -59,11 +59,13 @@ defmodule Viviani.Util.DocUtil do
   @elixir_root @hex_root <> "elixir/1.4.2/"
   @alchemy_root @hex_root <> "discord_alchemy/0.2.2/"
 
-  def link(module, func, arity) do
-    root = case module do
-      "Alchemy" <> _rest -> @alchemy_root
-      _else -> @elixir_root
-    end
-    root <> "#{module}.html\##{func}/#{arity}"
+  defp find_root("Alchemy" <> _rest), do: @alchemy_root
+  defp find_root(_), do: @elixir_root
+
+  def link(module) do
+    find_root(module) <> module <> ".html"
+  end
+  def link(module, fun, arity) do
+    find_root(module) <> "#{module}.html\##{fun}/#{arity}"
   end
 end

@@ -21,6 +21,7 @@ defmodule Viviani.Docs do
     with {:ok, header} <- DocUtil.module_header(module) do
       @purple_embed
       |> title(module)
+      |> url(DocUtil.link(module))
       |> description(header)
     else
       # nil means that the string couldn't be converted to an existing module
@@ -57,6 +58,7 @@ defmodule Viviani.Docs do
       {:ok, header} ->
         @purple_embed
         |> title(func_format.(module, function, arity))
+        |> url(DocUtil.link(module, function, arity))
         |> description(header)
     end
     |> Cogs.send
