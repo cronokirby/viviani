@@ -9,8 +9,8 @@ defmodule Viviani.Util.DocsTest do
                  "to interact with the cache."
 
   test "Module headers should be accessible, or nil" do
-    assert Docs.module_header("GenServer") == @genserver_header
-    assert Docs.module_header("Alchemy.Cache") == @alchemy_cache
+    assert Docs.module_header("GenServer") == {:ok, @genserver_header}
+    assert Docs.module_header("Alchemy.Cache") == {:ok, @alchemy_cache}
     assert Docs.module_header("FOFOFOFOFOFO") == nil
   end
 

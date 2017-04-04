@@ -21,6 +21,6 @@ defmodule Viviani.Mixfile do
   end
 
   defp deps do
-    [{:alchemy, "~> 0.2.0", hex: :discord_alchemy}]
+    [{:alchemy, "~> 0.2.2", hex: :discord_alchemy}]
   end
 end

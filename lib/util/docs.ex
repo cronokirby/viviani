@@ -4,11 +4,11 @@ defmodule Viviani.Util.Docs do
   """
   require IEx
   def module_header(module) do
-    # Won't match in the case we don't find the module, returning nil.
+    # We catch the inability to convert to an existing atom -> no such module
     try do
       module = ("Elixir." <> module) |> String.to_existing_atom
       {_line, text} = Code.get_docs(module, :moduledoc)
-      hd String.split(text, "\n")
+      {:ok, hd String.split(text, "\n")}
     rescue
       _e in ArgumentError -> nil
     end
