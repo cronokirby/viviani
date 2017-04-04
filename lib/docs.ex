@@ -42,13 +42,21 @@ defmodule Viviani.Docs do
 
   Cogs.set_parser(:funcdoc, &Viviani.Docs.docs_parser/1)
   Cogs.def funcdoc(module, function, arity) do
+    func_format = fn m, f, a -> "#{m}.#{f}/#{a}" end
     {arity, _} = Integer.parse(arity)
     case DocUtil.fun_header(module, function, arity) do
       nil ->
         no_module_error(module)
+      {:similar, list} ->
+        %Embed{color: 0x1f95c1}
+        |> description("Failed to find the function "<>
+                       "`#{func_format.(module, function, arity)}`.")
+        |> field("Perhaps you meant one of:", Enum.map_join(list, "\n", fn {f, a} ->
+          "`" <> func_format.(module, f, a) <> "`"
+        end))
       {:ok, header} ->
         @purple_embed
-        |> title("#{module}.#{function}/#{arity}")
+        |> title(func_format.(module, function, arity))
         |> description(header)
     end
     |> Cogs.send
