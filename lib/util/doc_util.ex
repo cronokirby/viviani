@@ -2,7 +2,10 @@ defmodule Viviani.Util.DocUtil do
   @moduledoc """
   Utility functions for accessing docs
   """
-  require IEx
+
+  @doc """
+  Gets the doc header for a module.
+  """
   def module_header(module) do
     # We catch the inability to convert to an existing atom -> no such module
     try do
@@ -50,5 +53,17 @@ defmodule Viviani.Util.DocUtil do
       String.jaro_distance(fun, Atom.to_string(f))
     end, &>=/2)
     |> Enum.take(amount)
+  end
+
+  @hex_root "https://hexdocs.pm/"
+  @elixir_root @hex_root <> "elixir/1.4.2/"
+  @alchemy_root @hex_root <> "discord_alchemy/0.2.2/"
+
+  def link(module, func, arity) do
+    root = case module do
+      "Alchemy" <> _rest -> @alchemy_root
+      _else -> @elixir_root
+    end
+    root <> "#{module}.html\##{func}/#{arity}"
   end
 end

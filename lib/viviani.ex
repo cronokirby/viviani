@@ -25,5 +25,6 @@ defmodule Viviani do
   defp load_modules do
    use Viviani.Basic
    use Viviani.Statistics
+   use Viviani.Docs
   end
 end
