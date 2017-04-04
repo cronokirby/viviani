@@ -1,4 +1,4 @@
-defmodule Viviani.Util.Docs do
+defmodule Viviani.Util.DocUtil do
   @moduledoc """
   Utility functions for accessing docs
   """
