@@ -28,7 +28,7 @@ defmodule Viviani.Docs do
       nil ->
         no_module_error(module)
     end
-    |> Cogs.send
+    |> Embed.send
   end
 
 
@@ -41,8 +41,8 @@ defmodule Viviani.Docs do
     |> Enum.reverse
   end
 
-  Cogs.set_parser(:funcdoc, &Viviani.Docs.docs_parser/1)
-  Cogs.def funcdoc(module, function, arity) do
+  Cogs.set_parser(:fundoc, &Viviani.Docs.docs_parser/1)
+  Cogs.def fundoc(module, function, arity) do
     func_format = fn m, f, a -> "#{m}.#{f}/#{a}" end
     {arity, _} = Integer.parse(arity)
     case DocUtil.fun_header(module, function, arity) do
@@ -61,6 +61,6 @@ defmodule Viviani.Docs do
         |> url(DocUtil.link(module, function, arity))
         |> description(header)
     end
-    |> Cogs.send
+    |> Embed.send
   end
 end

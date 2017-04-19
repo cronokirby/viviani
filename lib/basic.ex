@@ -56,7 +56,6 @@ defmodule Viviani.Basic do
     {:ok, guild} = Cogs.guild()
     {:ok, member} = Cogs.member()
     userinfo_embed(guild, member)
-    |> Cogs.send
+    |> Embed.send
   end
-
 end

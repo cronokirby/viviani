@@ -10,7 +10,7 @@ defmodule Viviani.Statistics do
     {time, _} = :erlang.statistics(:wall_clock)
     min = div(time, 1000 * 60)
     {hours, min} = {div(min, 60), rem(min, 60)}
-    {days, hours} = {div(hours, 60), rem(hours, 60)}
+    {days, hours} = {div(hours, 24), rem(hours, 24)}
     Stream.zip([min, hours, days], ["m", "h", "d"])
     |> Enum.reduce("", fn
       {0, _glyph}, acc -> acc
@@ -35,7 +35,7 @@ defmodule Viviani.Statistics do
     end)
     |> title("Viviani")
     |> url("https://github.com/cronokirby/viviani")
-    |> Cogs.send
+    |> Embed.send
   end
 
 
@@ -61,7 +61,7 @@ defmodule Viviani.Statistics do
     Enum.reduce(info, @red_embed, fn {name, value}, embed ->
       field(embed, name, value, inline: true)
     end)
-    |> Cogs.send
+    |> Embed.send
   end
 
 end
